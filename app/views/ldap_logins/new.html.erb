@@ -1,2 +1,12 @@
 <h1>LdapLogins#new</h1>
 <p>Find me in app/views/ldap_logins/new.html.erb</p>
+
+
+<%= form_tag(ldap_login_path) do %>
+  <%= label_tag(:login, "Login") %>
+  <%= text_field_tag(:login) %>
+  <br>
+  <%= label_tag(:pass, "Password") %>
+  <%= password_field_tag(:pass) %>
+  <%= submit_tag("Log in") %>
+<% end %>

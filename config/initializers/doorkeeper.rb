@@ -10,8 +10,7 @@ Doorkeeper.configure do
 
     #redirect_to oauth_authorization_url
     # TODO: change me
-    byebug
-    1==1
+
 
     User.last || redirect_to(new_ldap_login_url)
   end
