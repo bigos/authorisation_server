@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   def admin?
     # ATM only this user is an admin
+    # TODO: change me
     true if email == 'test@test.com'
   end
 end
