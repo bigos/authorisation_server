@@ -8,6 +8,7 @@ Doorkeeper.configure do
     # Example implementation:
     #   User.find_by_id(session[:user_id]) || redirect_to(new_user_session_url)
 
+    #redirect_to oauth_authorization_url
     # TODO: change me
     User.last
   end

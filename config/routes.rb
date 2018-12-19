@@ -5,5 +5,12 @@ Rails.application.routes.draw do
 
   get '/me' => 'application#me'
 
+  namespace :api do
+    namespace :v1 do
+      # another api routes
+      get '/me' => "credentials#me"
+    end
+  end
+
   root to: 'doorkeeper/applications#index'
 end
