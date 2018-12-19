@@ -13,7 +13,7 @@ Doorkeeper.configure do
     byebug
     1==1
 
-    User.last || redirect_to()
+    User.last || redirect_to(new_ldap_login_url)
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'ldap_logins/new'
+  get 'ldap_logins/create'
   # we use customised controller, instead of the controller provided by the gem
   use_doorkeeper do
     controllers authorizations: 'custom_authorizations'

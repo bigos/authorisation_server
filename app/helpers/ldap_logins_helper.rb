@@ -1,0 +1,2 @@
+module LdapLoginsHelper
+end
