@@ -10,7 +10,10 @@ Doorkeeper.configure do
 
     #redirect_to oauth_authorization_url
     # TODO: change me
-    User.last
+    byebug
+    1==1
+
+    User.last || redirect_to()
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
