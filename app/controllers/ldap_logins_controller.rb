@@ -30,6 +30,7 @@ class LdapLoginsController < ApplicationController
           redirect_to (client_app.redirect_uri +
                        '?' +
                        { provider: 'authoritarian',
+                         code: :what,
                          state: params[:state]
                        }.to_query)
         else
