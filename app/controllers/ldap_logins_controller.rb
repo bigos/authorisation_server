@@ -1,10 +1,6 @@
-class LdapLoginsController < Doorkeeper::AuthorizationsController
-      # ApplicationController
+class LdapLoginsController < ApplicationController
+      # Doorkeeper::AuthorizationsController
   def new
-    byebug
-    1==1
-
-    nil
   end
 
   def create
@@ -14,6 +10,7 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
 
     u = User.new(email: 'test@test.com', password: 'password')
     u.save
+    session[:user_id] = u.id
     # we should have User.last so the authorisation should work
     redirect_to oauth_authorization_path
   end

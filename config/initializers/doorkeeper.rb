@@ -10,10 +10,11 @@ Doorkeeper.configure do
 
     #redirect_to oauth_authorization_url
     # TODO: change me
-    byebug
-    2==2
 
-    User.last || render('/ldap_login/new')
+    byebug
+    1==1
+
+    User.find_by_id(session['user_id']) || redirect_to(new_ldap_login_url)
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
