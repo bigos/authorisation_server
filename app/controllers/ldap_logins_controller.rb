@@ -1,4 +1,5 @@
-class LdapLoginsController < ApplicationController
+class LdapLoginsController < Doorkeeper::AuthorizationsController
+  # ApplicationController
 
   # finding that took couple of hours
   before_action :authenticate_resource_owner!, except: [:new, :create]
@@ -29,8 +30,7 @@ class LdapLoginsController < ApplicationController
         if client_app
           redirect_to (client_app.redirect_uri +
                        '?' +
-                       { provider: 'authoritarian',
-                         code: :what,
+                       { code: :what_is_supposed_to_be,
                          state: params[:state]
                        }.to_query)
         else

@@ -192,13 +192,13 @@ Doorkeeper.configure do
   # Hook into the strategies' request & response life-cycle in case your
   # application needs advanced customization or logging:
   #
-  # before_successful_strategy_response do |request|
-  #   puts "BEFORE HOOK FIRED! #{request}"
-  # end
-  #
-  # after_successful_strategy_response do |request, response|
-  #   puts "AFTER HOOK FIRED! #{request}, #{response}"
-  # end
+  before_successful_strategy_response do |request|
+    puts "BEFORE HOOK FIRED! #{request}"
+  end
+
+  after_successful_strategy_response do |request, response|
+    puts "AFTER HOOK FIRED! #{request}, #{response}"
+  end
 
   # Hook into Authorization flow in order to implement Single Sign Out
   # or add ny other functionality.
