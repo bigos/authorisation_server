@@ -1,4 +1,5 @@
 class LdapLoginsController < Doorkeeper::AuthorizationsController
+      # ApplicationController
   def new
     byebug
     1==1
