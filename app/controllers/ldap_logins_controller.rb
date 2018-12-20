@@ -4,23 +4,16 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
   respond_to :json, only: :create
 
   def new
-    byebug
-    1==1
   end
 
   def create
-    byebug
-    1==1
-
     login = params['login']
     pass  = params['pass']
 
     require 'net/ldap'
     authenticated = authenticate_ldap(login, pass)
 
-    byebug
-    2==2
-    nil
+
 
     @user = User.new(email: authenticated, password: 'not-applicable')
     @user.save!
@@ -28,19 +21,18 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
 
     if authenticated
       puts "authenticated - please respond with good json"
-      query_elements = CGI.parse URI(request.env['action_dispatch.request.unsigned_session_cookie']['user_return_to']).query
-      if query_elements
-        client_app = Doorkeeper::Application.where(uid: query_elements['client_id']).first
+
+      if params[:client_id]
+        client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
 
         if client_app
-          client_app.redirect_uri
-
-          self.resource = User.new(email: 'foo@bar')
-
 
           redirect_to (client_app.redirect_uri +
                        '?' +
-                       { state: query_elements['state'].first }.to_query)
+                       { provider: 'authoritarian',
+                         code: 1,
+                         state: params[:state]
+                       }.to_query)
         else
           # no client app
           super
