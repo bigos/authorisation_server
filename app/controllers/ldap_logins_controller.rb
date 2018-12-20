@@ -1,4 +1,5 @@
-class LdapLoginsController < Doorkeeper::AuthorizationsController
+class LdapLoginsController < ApplicationController
+
   # finding that took couple of hours
   before_action :authenticate_resource_owner!, except: [:new, :create]
   respond_to :json, only: :create
@@ -14,8 +15,10 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
     authenticated = authenticate_ldap(login, pass)
 
     @user = User.where(email: authenticated).first
-    @user = User.new(email: authenticated, password: 'not-applicable') unless @user
-    @user.save
+    unless @user
+      @user = User.new(email: authenticated, password: 'not-applicable')
+      @user.save
+    end
     session[:user_id] = @user.id
 
     if authenticated
