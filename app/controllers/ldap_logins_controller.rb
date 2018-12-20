@@ -1,7 +1,13 @@
 class LdapLoginsController < Doorkeeper::AuthorizationsController
-  # ApplicationController
+  # finding that took couple of hours
   before_action :authenticate_resource_owner!, except: [:new, :create]
+
   def new
+    if pre_auth.authorizable?
+      render_success
+    else
+      render_error
+    end
   end
 
   def create
@@ -9,10 +15,16 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
     2==2
     nil
 
-    u = User.new(email: 'test@test.com', password: 'password')
-    u.save
-    session[:user_id] = u.id
-    # we should have User.last so the authorisation should work
-    # redirect_to oauth_authorization_path
+    @user = User.new(email: 'test@test.com', password: 'password')
+    @user.save!
+    session[:user_id] = @user.id
+
+    # if pre_auth.authorizable?
+    #   render_success
+    # else
+    #   render_error
+    # end
+
+    redirect_or_render authorize_response
   end
 end
