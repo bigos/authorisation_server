@@ -1,5 +1,6 @@
-class LdapLoginsController < ApplicationController
-      # Doorkeeper::AuthorizationsController
+class LdapLoginsController < Doorkeeper::AuthorizationsController
+  # ApplicationController
+  before_action :authenticate_resource_owner!, except: [:new, :create]
   def new
   end
 
@@ -12,6 +13,6 @@ class LdapLoginsController < ApplicationController
     u.save
     session[:user_id] = u.id
     # we should have User.last so the authorisation should work
-    redirect_to oauth_authorization_path
+    # redirect_to oauth_authorization_path
   end
 end
