@@ -8,12 +8,12 @@ Doorkeeper.configure do
     # Example implementation:
     #   User.find_by_id(session[:user_id]) || redirect_to(new_user_session_url)
 
-    #redirect_to oauth_authorization_url
-    # TODO: change me
+    passed_params = {}
+    %w(client_id redirect_uri state).each do |k|
+      passed_params[k] = params[k]
+    end
 
-
-
-    User.find_by_id(session['user_id']) || redirect_to(new_ldap_login_path)
+    User.find_by_id(session['user_id']) || redirect_to(new_ldap_login_path(passed_params))
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
