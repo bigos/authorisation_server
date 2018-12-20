@@ -13,10 +13,9 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
     require 'net/ldap'
     authenticated = authenticate_ldap(login, pass)
 
-
-
-    @user = User.new(email: authenticated, password: 'not-applicable')
-    @user.save!
+    @user = User.where(email: authenticated).first
+    @user = User.new(email: authenticated, password: 'not-applicable') unless @user
+    @user.save
     session[:user_id] = @user.id
 
     if authenticated
@@ -24,13 +23,10 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
 
       if params[:client_id]
         client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
-
         if client_app
-
           redirect_to (client_app.redirect_uri +
                        '?' +
                        { provider: 'authoritarian',
-                         code: 1,
                          state: params[:state]
                        }.to_query)
         else
