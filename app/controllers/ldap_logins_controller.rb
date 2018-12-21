@@ -56,6 +56,7 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
                                                             nil,
                                                             7200,
                                                             true )
+
           grant = Doorkeeper::AccessGrant.create(resource_owner_id: @user.id,
                                                  application_id: client_app.id,
                                                  token: code.token,
@@ -63,8 +64,8 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
                                                  redirect_uri: client_app.redirect_uri,
                                                  scopes: nil)
           # why do I have to update the token?
-          grant.token=code.token
-          grant.save!
+          grant.update(token: code.token)
+
 
 
           redirect_to (client_app.redirect_uri +
