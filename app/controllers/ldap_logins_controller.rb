@@ -48,11 +48,25 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
           #
           # @return [Doorkeeper::AccessToken] existing record or a new one
           #
+
+
+
           code = Doorkeeper::AccessToken.find_or_create_for(client_app,
                                                             @user.id,
                                                             nil,
                                                             7200,
                                                             true )
+          grant = Doorkeeper::AccessGrant.create(resource_owner_id: @user.id,
+                                                 application_id: client_app.id,
+                                                 token: code.token,
+                                                 expires_in: 600,
+                                                 redirect_uri: client_app.redirect_uri,
+                                                 scopes: nil)
+          # why do I have to update the token?
+          grant.token=code.token
+          grant.save!
+
+
           redirect_to (client_app.redirect_uri +
                        '?' +
                        { code: code.token,
