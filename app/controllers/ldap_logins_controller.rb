@@ -23,8 +23,6 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
     session[:user_id] = @user.id
 
     if authenticated
-      puts "authenticated - please respond with good json"
-
       if params[:client_id]
         client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
         if client_app
