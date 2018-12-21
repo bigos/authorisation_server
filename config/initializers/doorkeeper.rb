@@ -9,7 +9,7 @@ Doorkeeper.configure do
     #   User.find_by_id(session[:user_id]) || redirect_to(new_user_session_url)
 
     passed_params = {}
-    %w(client_id redirect_uri state).each do |k|
+    %w(client_id state).each do |k|
       passed_params[k] = params[k]
     end
 

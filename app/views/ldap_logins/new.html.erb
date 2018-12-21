@@ -3,7 +3,7 @@
 
 
 <%= form_tag(ldap_login_path) do %>
-  <% [:client_id, :redirect_uri, :state].each do |k| %>
+  <% [:client_id, :state].each do |k| %>
     <%= hidden_field_tag k, params[k] %>
   <% end %>
 
