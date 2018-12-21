@@ -28,9 +28,37 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
       if params[:client_id]
         client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
         if client_app
+
+          code = :what_is_supposed_to_be
+
+
+          # Looking for not expired AccessToken record with a matching set of
+          # scopes that belongs to specific Application and Resource Owner.
+          # If it doesn't exists - then creates it.
+          #
+          # @param application [Doorkeeper::Application]
+          #   Application instance
+          # @param resource_owner_id [ActiveRecord::Base, Integer]
+          #   Resource Owner model instance or it's ID
+          # @param scopes [#to_s]
+          #   set of scopes (any object that responds to `#to_s`)
+          # @param expires_in [Integer]
+          #   token lifetime in seconds
+          # @param use_refresh_token [Boolean]
+          #   whether to use the refresh token
+          #
+          # @return [Doorkeeper::AccessToken] existing record or a new one
+          #
+          code = Doorkeeper::AccessToken.find_or_create_for(application,
+                                                            resource_owner_id,
+                                                            scopes,
+                                                            expires_in,
+                                                            use_refresh_token
+                                                           )
+
           redirect_to (client_app.redirect_uri +
                        '?' +
-                       { code: :what_is_supposed_to_be,
+                       { code: code,
                          state: params[:state]
                        }.to_query)
         else
