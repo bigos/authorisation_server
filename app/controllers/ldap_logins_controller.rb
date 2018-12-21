@@ -10,10 +10,10 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
 
   def create
     login = params['login']
-    pass  = params['pass']
+    password  = params['password']
 
     require 'net/ldap'
-    authenticated = authenticate_ldap(login, pass)
+    authenticated = authenticate_ldap(login, password)
 
     @user = User.where(email: authenticated).first
     unless @user
