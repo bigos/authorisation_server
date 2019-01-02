@@ -18,6 +18,9 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
 
     @user = User.where(email: authenticated).first
     unless @user
+      # TODO
+      # we need to create admin users from the console, because all other users
+      # passwords are are set to the same string, random hash would be better
       @user = User.new(email: authenticated, password: 'not-applicable')
       @user.save
     end

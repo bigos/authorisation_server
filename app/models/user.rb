@@ -12,9 +12,19 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :delete_all # or :destroy if you need callbacks
 
+  validate :user_has_downcased_email
+
+  def user_has_downcased_email
+    if email.downcase != email
+      errors.add(:email, "You must use downcased email")
+    end
+  end
+
   def admin?
-    # ATM only this user is an admin
-    # TODO: change me
-    true if email == 'test@test.com'
+    admin_users = ['jacek.podkanski@conceptlifesciences.com',
+                         'jon.adams@conceptlifesciences.com']
+
+    admin = true if admin_users.select{ |ue| email == ue }.any?
+    admin
   end
 end
