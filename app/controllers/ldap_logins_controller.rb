@@ -9,11 +9,12 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
   end
 
   def create
+    require 'net/ldap'
     login = params['login']
     password  = params['password']
 
-    require 'net/ldap'
-    authenticated = authenticate_ldap(login, password)
+    # email of authenticated user or empty string
+    authenticated = authenticate_ldap(login, password).to_s.downcase
 
     @user = User.where(email: authenticated).first
     unless @user
@@ -22,7 +23,7 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
     end
     session[:user_id] = @user.id
 
-    if authenticated
+    unless authenticated.blank?
       if params[:client_id]
         client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
         if client_app
@@ -47,8 +48,6 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
           # @return [Doorkeeper::AccessToken] existing record or a new one
           #
 
-
-
           code = Doorkeeper::AccessToken.find_or_create_for(client_app,
                                                             @user.id,
                                                             nil,
@@ -63,8 +62,6 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
                                                  scopes: nil)
           # why do I have to update the token?
           grant.update(token: code.token)
-
-
 
           redirect_to (client_app.redirect_uri +
                        '?' +
