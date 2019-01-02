@@ -12,19 +12,12 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-      <%= link_to t('doorkeeper.layouts.admin.nav.oauth2_provider'), oauth_applications_path, class: 'navbar-brand' %>
+      <div class="navbar-brand">
+        User Login
+      </div>
 
       <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item <%= 'active' if request.path == oauth_applications_path %>">
-            <%= link_to t('doorkeeper.layouts.admin.nav.applications'), oauth_applications_path, class: 'nav-link' %>
-          </li>
-          <% if respond_to?(:root_path) %>
-            <li class="nav-item">
-              <%= link_to t('doorkeeper.layouts.admin.nav.home'), root_path, class: 'nav-link' %>
-            </li>
-          <% end %>
-        </ul>
+
 
       </div>
     </nav>
