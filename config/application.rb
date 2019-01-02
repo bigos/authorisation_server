@@ -21,10 +21,10 @@ module AuthorisationServer
       Doorkeeper::ApplicationsController.layout 'application.html.erb'
 
       # Only Authorization endpoint
-      # Doorkeeper::AuthorizationsController.layout "my_layout"
+      Doorkeeper::AuthorizationsController.layout "authorization.html.erb"
 
       # Only Authorized Applications
-      # Doorkeeper::AuthorizedApplicationsController.layout "my_layout"
+      # Doorkeeper::AuthorizedApplicationsController.layout "authorization.html.erb"
     end
   end
 end
