@@ -12,6 +12,25 @@ class Users::SessionsController < Devise::SessionsController
   # def create
   #   super
   # end
+  def create
+    login = params['user']['login']
+    password  = params['user']['password']
+
+    authenticated = Ldap.new.authenticate_ldap(login, password).to_s.downcase
+
+    @user = User.where(email: authenticated).first
+    unless @user
+      # TODO
+      # we need to create admin users from the console, because all other users
+      # passwords are are set to the same string, random hash would be better
+      @user = User.new(email: authenticated, password: 'not-applicable')
+      @user.save
+    end
+    sign_in @user
+    session[:user_id] = @user.id
+
+    redirect_to root_path
+  end
 
   # DELETE /resource/sign_out
   # def destroy
