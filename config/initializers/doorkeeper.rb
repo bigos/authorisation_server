@@ -13,7 +13,7 @@ Doorkeeper.configure do
       passed_params[k] = params[k]
     end
 
-    User.find_by_id(session['user_id']) || redirect_to(new_ldap_login_path(passed_params))
+    redirect_to(new_ldap_login_path(passed_params))
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
