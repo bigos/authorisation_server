@@ -71,6 +71,7 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
                        }.to_query)
         else
           # no client app
+          # there is probably a problem with the secrets configuration
           super
         end
       else
