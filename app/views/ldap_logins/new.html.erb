@@ -1,0 +1,22 @@
+<h2>User Log in</h2>
+
+<%= form_tag(ldap_login_path) do %>
+  <% [:client_id, :state].each do |k| %>
+    <%= hidden_field_tag k, params[k] %>
+  <% end %>
+
+  <div class="field">
+    <%= label_tag(:login, "Login") %><br>
+    <%= text_field_tag(:login) %>
+  </div>
+
+  <div class="field">
+    <%= label_tag(:password, "Password") %><br>
+    <%= password_field_tag(:password) %>
+  </div>
+  <br>
+  <div class="actions">
+    <%= submit_tag("Log in", class: 'btn btn-primary ') %>
+  </div>
+
+<% end %>
