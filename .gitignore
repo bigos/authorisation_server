@@ -28,3 +28,5 @@
 
 # ignore sqlite files
 /db/*.sqlite3
+
+config/secrets.yml
