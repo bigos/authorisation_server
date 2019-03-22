@@ -43,3 +43,5 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 # look for rvm in home folder
 set :rvm_type, :user
 set :rvm_ruby_version, 'ruby-2.4.5@authorisation_server'
+
+set :passenger_restart_with_touch, true
