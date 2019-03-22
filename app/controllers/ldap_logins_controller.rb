@@ -24,9 +24,14 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
     end
     session[:user_id] = @user.id
 
+    logger.info " processing authentication results #{authenticated.inspect}"
+
     unless authenticated.blank?
       if params[:client_id]
         client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
+
+        logger.info " processing authentication before if #{client_app.inspect}"
+
         if client_app
 
           # taken from Doorkeeper model code
