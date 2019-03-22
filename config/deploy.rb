@@ -8,7 +8,7 @@ set :repo_url, 'git@10.190.0.129:authorisation_server'
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/cls/apps/authorisation_server'
+set :deploy_to, '/home/cls/apps/rails/authorisation_server'
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -22,6 +22,7 @@ set :deploy_to, '/home/cls/apps/authorisation_server'
 
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml"
+append :linked_files, 'config/secrets.yml', 'db/production.sqlite3'
 
 # Default value for linked_dirs is []
 # append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
