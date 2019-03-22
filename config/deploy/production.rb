@@ -21,7 +21,11 @@
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
+@host1 = 'cls@10.191.0.150'
 
+role :app, [@host1]
+role :web, [@host1]
+role :db,  [@host1]
 
 # Configuration
 # =============
