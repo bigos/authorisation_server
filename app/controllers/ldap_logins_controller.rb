@@ -8,6 +8,9 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
   def new
   end
 
+  # if you get errors here it might be because the client doesn't have
+  # the correct credentials, in one case copying the credentials in
+  # config/secrets.yml to the production section has fixed the problem
   def create
     login = params['login']
     password  = params['password']
@@ -22,15 +25,12 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
       @user = User.new(email: authenticated, password: 'not-applicable')
       @user.save
     end
-    session[:user_id] = @user.id
 
-    logger.info " processing authentication results #{authenticated.inspect}"
+    session[:user_id] = @user.id
 
     unless authenticated.blank?
       if params[:client_id]
         client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
-
-        logger.info " processing authentication before if #{client_app.inspect}"
 
         if client_app
 
