@@ -25,3 +25,8 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# ignore sqlite files
+/db/*.sqlite3
+
+config/secrets.yml

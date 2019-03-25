@@ -8,47 +8,32 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
   def new
   end
 
+  # if you get errors here it might be because the client doesn't have
+  # the correct credentials, in one case copying the credentials in
+  # config/secrets.yml to the production section has fixed the problem
   def create
     login = params['login']
     password  = params['password']
+    client_id = params[:client_id]
 
     authenticated = Ldap.new.authenticate_ldap(login, password).to_s.downcase
 
     @user = User.where(email: authenticated).first
     unless @user
-      # TODO
-      # we need to create admin users from the console, because all other users
-      # passwords are are set to the same string, random hash would be better
-      @user = User.new(email: authenticated, password: 'not-applicable')
+      # password is not used because we use OAUTH authentication
+      # but still we set it on semi-random hash
+      @user = User.new(email: authenticated,
+                       password: Digest::MD5.new.update(Time.now.ctime).hexdigest)
       @user.save
     end
+
     session[:user_id] = @user.id
 
     unless authenticated.blank?
-      if params[:client_id]
-        client_app = Doorkeeper::Application.where(uid: params[:client_id]).first
+      if client_id
+        client_app = Doorkeeper::Application.where(uid: client_id).first
+
         if client_app
-
-          # taken from Doorkeeper model code
-          #
-          # Looking for not expired AccessToken record with a matching set of
-          # scopes that belongs to specific Application and Resource Owner.
-          # If it doesn't exists - then creates it.
-          #
-          # @param application [Doorkeeper::Application]
-          #   Application instance
-          # @param resource_owner_id [ActiveRecord::Base, Integer]
-          #   Resource Owner model instance or it's ID
-          # @param scopes [#to_s]
-          #   set of scopes (any object that responds to `#to_s`)
-          # @param expires_in [Integer]
-          #   token lifetime in seconds
-          # @param use_refresh_token [Boolean]
-          #   whether to use the refresh token
-          #
-          # @return [Doorkeeper::AccessToken] existing record or a new one
-          #
-
           code = Doorkeeper::AccessToken.find_or_create_for(client_app,
                                                             @user.id,
                                                             nil,
@@ -70,15 +55,16 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
                          state: params[:state]
                        }.to_query)
         else
-          # no client app
-          # there is probably a problem with the secrets configuration
+          logger.error "problem with the client app credentials"
           super
         end
       else
         # no action dispatch cookie
+        logger.error "client_id was blank #{client_id}"
         super
       end
     else
+      logger.info "authentication failed for: #{login}"
       # not authenticated
       super
     end
