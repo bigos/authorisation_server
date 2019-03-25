@@ -5,7 +5,7 @@ set :application, 'authorisation_server'
 set :repo_url, 'git@10.190.0.129:authorisation_server'
 
 # Default branch is :master
-ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/home/cls/apps/rails/authorisation_server'
