@@ -150,6 +150,11 @@ Doorkeeper.configure do
   #
   # force_ssl_in_redirect_uri { |uri| uri.host != 'localhost' }
 
+
+  # do not enforce https in return uri
+  # https://stuntcoders.com/snippets/doorkeeper-turn-off-ssl-return-uri-oauth2/
+  force_ssl_in_redirect_uri false
+
   # Specify what redirect URI's you want to block during Application creation.
   # Any redirect URI is whitelisted by default.
   #
