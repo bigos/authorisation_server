@@ -7,11 +7,16 @@ set :repo_url, 'git@10.190.0.129:authorisation_server'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-@config_host = 'vm'
+@known_hosts = ['manasbapps', 'vm']
+@config_host = @known_hosts[0]
 
 # Default deploy_to directory is /var/www/my_app_name
 if @config_host == 'vm'
   set :deploy_to, '/home/cls/apps/rails/authorisation_server'
+  @host1 = 'cls@10.191.0.150'
+elsif @config_host == 'manasbapps'
+  set :deploy_to, '/home/rec/apps/rails/authorisation_server'
+  @host1 = 'rec@manasbapps'
 else
   raise 'unexpected config host'
 end
