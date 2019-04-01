@@ -7,8 +7,14 @@ set :repo_url, 'git@10.190.0.129:authorisation_server'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
+@config_host = 'vm'
+
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/cls/apps/rails/authorisation_server'
+if @config_host == 'vm'
+  set :deploy_to, '/home/cls/apps/rails/authorisation_server'
+else
+  raise 'unexpected config host'
+end
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
