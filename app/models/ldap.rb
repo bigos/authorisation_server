@@ -15,7 +15,7 @@ class Ldap
 
     require 'net/ldap'
     ldap      = Net::LDAP.new
-    ldap.host = 'neptune' # LDAP_CONFIG['host']
+    ldap.host = 'salcam2' # LDAP_CONFIG['host']
     ldap.port = 389 # LDAP_CONFIG['port']
     ldap.auth "uid=#{login},ou=People,dc=salltd,dc=co,dc=uk", password
 
