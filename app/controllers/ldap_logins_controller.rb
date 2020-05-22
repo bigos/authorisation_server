@@ -55,7 +55,7 @@ class LdapLoginsController < Doorkeeper::AuthorizationsController
                          state: params[:state]
                        }.to_query)
         else
-          logger.error "problem with the client app credentials"
+          logger.error "problem with the client app credentials, make sure you app secrets uuid and secret match the values stored in the OAuth2 Provider admin panel"
           super
         end
       else
